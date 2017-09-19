@@ -90,20 +90,25 @@ class Zeichen32GitLabApiExtension extends Extension
         $container->setAlias(sprintf('zeichen32_gitlabapi.http.client.%s', $name), $httpClient);
 
         $definition = new Definition('%zeichen32_gitlabapi.client.class%', array(
-            $url, new Reference(sprintf('zeichen32_gitlabapi.http.client.%s', $name))
+	        null, new Reference(sprintf('zeichen32_gitlabapi.http.client.%s', $name))
         ));
 
+        // Set URL
+	    $definition->addMethodCall('setUrl', array(
+		    $url
+	    ));
+
         // Set Client Options
-        if(count($options) > 0) {
-            foreach($options as $key => $value) {
-                if(null !== $value) {
-                    $definition->addMethodCall('setOption', array(
-                        $key,
-                        $value
-                    ));
-                }
-            }
-        }
+//        if(count($options) > 0) {
+//            foreach($options as $key => $value) {
+//                if(null !== $value) {
+//                    $definition->addMethodCall('setOption', array(
+//                        $key,
+//                        $value
+//                    ));
+//                }
+//            }
+//        }
 
         // Call authenticate method
         $definition->addMethodCall('authenticate', array(
